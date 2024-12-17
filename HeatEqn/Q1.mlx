@@ -1,0 +1,79 @@
+clear all;
+
+a=sqrt(1.71);L=pi;
+nterm=10;
+
+xspan=linspace(0,pi,100);
+tspan=linspace(0,3,60);
+
+[X,T]=meshgrid(xspan,tspan);
+
+
+%%%%% a %%%%%%
+fprintf("a.")
+
+
+syms x f(x) n bn(n) t u(x,t,n)
+
+f(x)=10;
+bn(n)=(2./L)*int(f(x)*sin(n*pi*x/L),x,0,L);
+u(x,t,n)= eval(bn(n)*sin(n*pi.*x/L)*exp(-((n*pi./L)^2)*a^2 *t));
+
+if diff(u,t)==a^2*diff(u,x,2)
+    fprintf(">100 degree celsius")
+else
+    fprintf("<100 degree celsius")
+end
+
+
+%%%%% b %%%%%%
+fprintf("b.")
+
+bn(n)=(2./L)*int(f(x)*sin(n*pi*x/L),x,0,L)
+
+
+%%%%% c %%%%%%
+fprintf("c.")
+
+Arr=zeros(length(tspan),length(xspan));
+
+
+
+for i=1:2:nterm %%%%
+    Arr=Arr+eval(u(X,T,i));
+    figure;
+    surf(X,T,Arr)
+    colorbar;
+    title("taking first nth term; where n=",i)
+end
+
+
+%%%%% d %%%%%%
+fprintf("d.")
+
+u=u(x,t,n)
+
+figure;
+surf(X,T,Arr)
+colorbar
+title("final output")
+
+
+%%%%% e %%%%%%
+fprintf("e.")
+
+figure;
+plot(T,Arr(:,floor(length(X)/2)))
+title("temp dist at L/2")
+xlabel("time")
+ylabel("temp")
+grid on
+
+
+%%%%% f %%%%%%
+fprintf("f.")
+
+fprintf("lol")
+
+
+
